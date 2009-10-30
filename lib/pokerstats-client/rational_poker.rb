@@ -7,12 +7,11 @@ module PokerstatsClient
     # Establish Resources and authentication criteria
     RESOURCES = []
     Dir[File.dirname(__FILE__) + "/models/*.rb"].each {|filename| require File.expand_path(filename)}
-    SITENAME = "http://rationalpoker.local"
-    def initialize user, password
-      login(user, password)
+    def initialize user, password, sitename = "http://rationalpoker.local"
+      login(user, password, sitename)
     end  
-    def login(user, password)
-      RESOURCES.each {|resource| resource.login(SITENAME, user, password) }
+    def login(user, password, sitename)
+      RESOURCES.each {|resource| resource.login(user, password, sitename) }
     end
     def resources
       RESOURCES

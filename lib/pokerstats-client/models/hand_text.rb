@@ -2,7 +2,7 @@ module PokerstatsClient
   class RationalPoker
     class HandText < ActiveResource::Base
       RationalPoker::RESOURCES << self
-      def self.login(rational_poker_url, user, password)
+      def self.login(user, password, rational_poker_url)
         self.site = rational_poker_url + "/poker_sessions/:ps_id/"
         self.user = user
         self.password = password
