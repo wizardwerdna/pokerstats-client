@@ -1,4 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'active_resource'
+class MyLogger
+  def info string
+    puts string
+  end
+end
+ActiveResource::Base.logger=MyLogger.new
 require 'active_resource/http_mock'
 
 Spec::Matchers.define :correspond_to do |hash|
@@ -56,7 +63,7 @@ describe PokerstatsClient::RationalPoker do
     PokerstatsClient::RationalPoker::PokerSession.find_by_name(@session[:name]).should correspond_to(@session)
   end
   it 'should find or create a session by name' do
-    @not_present_session = @session.update(:name => "not_present")
+    @not_present_session = @session.clone.update(:name => "not_present")
     PokerstatsClient::RationalPoker::PokerSession.find_or_create_by_name("not_present", @not_present_session).should correspond_to(@not_present_session)
     PokerstatsClient::RationalPoker::PokerSession.find_or_create_by_name("test", @session).should correspond_to(@session)
   end
